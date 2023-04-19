@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: \${{ matrix.os }}
 
     strategy:
       matrix:
@@ -22,13 +22,13 @@ jobs:
 
       - name: npm install
         run: |
-          npm install
+          npm --prefix app install
 
       - name: npm test
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run package
-          npm run lint
-          npm exec tsc
-          npm test
+          npm --prefix app run package
+          npm --prefix app run lint
+          npm --prefix app exec tsc
+          npm --prefix app test
