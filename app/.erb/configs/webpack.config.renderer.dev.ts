@@ -63,7 +63,7 @@ const configuration: webpack.Configuration = {
   module: {
     rules: [
       {
-        test: /\.s?(c|a)ss$/,
+        test: /\.s?css$/,
         use: [
           'style-loader',
           {
@@ -75,12 +75,32 @@ const configuration: webpack.Configuration = {
             },
           },
           'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
+            },
+          },
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
+            },
+          },
+        ],
         exclude: /\.module\.s?(c|a)ss$/,
       },
       // Fonts
@@ -99,16 +119,16 @@ const configuration: webpack.Configuration = {
         use: [
           {
             loader: '@svgr/webpack',
-            options: {
+          options: {
               prettier: false,
               svgo: false,
               svgoConfig: {
                 plugins: [{ removeViewBox: false }],
-              },
+          },
               titleProp: true,
               ref: true,
-            },
-          },
+        },
+      },
           'file-loader',
         ],
       },
@@ -119,10 +139,10 @@ const configuration: webpack.Configuration = {
       ? []
       : [
           new webpack.DllReferencePlugin({
-            context: webpackPaths.dllPath,
-            manifest: require(manifest),
-            sourceType: 'var',
-          }),
+          context: webpackPaths.dllPath,
+          manifest: require(manifest),
+          sourceType: 'var',
+        }),
         ]),
 
     new webpack.NoEmitOnErrorsPlugin(),
