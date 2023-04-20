@@ -2,22 +2,81 @@
 # Basic setup
 
 
-+ Set up Electron React `Boilerplate using https://electron-react-boilerplate.js.org`
-+ Set up Tailwind as per `https://electron-react-boilerplate.js.org/docs/styling`
-+ Added shadcn-ui 
-  + with `npx shadcn-ui add alert-dialog checkbox dialog label menubar radio-group select switch tooltip` 
-  + to `app/src/renderer/components/ui...`
+## CSS Relative Color Syntax
+https://www.w3.org/TR/css-color-5/#relative-colors
+```css
+html { --bg-color: blue; }
+.overlay {
+  background: rgb(from var(--bg-color) r g b / 80%);
+}
+```
 
 
-Having a strange typescript issue, or maybe its an eslint issue. no idea
-I get a warning on every file that it cannot compile the typescript
-but it does
+Settings menu trigger madness :
 
-https://stackoverflow.com/questions/59756485/react-typescript-vscode-an-import-path-cannot-end-with-a-tsx-extension
+To achieve this, you can use a technique called "prop drilling", where you pass down the `trigger` prop from the `Settings` component to the `Menu` component via its props, and then render the trigger button in the `Menu` component.
 
-Resolve error: TSError: ⨯ Unable to compile TypeScript:
-app/.erb/configs/webpack.config.renderer.dev.ts(12,26): error TS7016: Could not find a declaration file for module '../scripts/check-node-env'. '/Users/theron/Developer/CodeWorks/Rulie/app/.erb/scripts/check-node-env.js' implicitly has an 'any' type.
+Here's an example of how you can implement this:
 
-Added to issue here
-https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/3423
+```typescript
+// App.js
+import React from 'react';
+import Menu from './Menu';
+import Settings from './Settings';
 
+function App() {
+  return (
+    <div>
+      <Menu />
+      <Settings />
+    </div>
+  );
+}
+
+export default App;
+
+// Settings.js
+import React, { useRef } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
+
+function Settings({ trigger }) {
+  const triggerRef = useRef(null);
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild={triggerRef}>
+        {trigger}
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          {/* Dialog content */}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+export default Settings;
+
+// Menu.js
+import React from 'react';
+import Settings from './Settings';
+
+function Menu() {
+  const triggerButton = <button>Open Settings</button>;
+
+  return (
+    <div>
+      {/* Other menu items */}
+      <Settings trigger={triggerButton} />
+    </div>
+  );
+}
+
+export default Menu;
+```
+
+In this example, the `triggerButton` element is defined in the `Menu` component, and passed down to the `Settings` component as a prop. The `Settings` component uses this element as the trigger to open the dialog when clicked. The `Menu` component then renders the `Settings` component with the `trigger` prop passed down as a child element.
+
+When the `trigger` element is clicked, the `Settings` component will open the dialog, and display the content specified inside the `Dialog.Content` component.
