@@ -3,11 +3,11 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 :root {
-  --highlight1: hsla(50, 100%, 58%, 1.0);
-  --highlight2: hsla(338, 67%, 61%, 1.0);
-  --highlight3: hsla(281, 56%, 40%, 1.0);
-  --black: hsla(285, 5%, 17%, 1.0);
-  --white: hsla(60, 0%, 100%, 1.0);
+  --highlight1: hsla(50, 100%, 58%);
+  --highlight2: hsla(338, 67%, 61%);
+  --highlight3: hsla(281, 56%, 40%);
+  --black: hsla(285, 5%, 17%);
+  --white: hsla(60, 0%, 100%);
 }
 
 body {
@@ -20,7 +20,8 @@ body {
     var(--highlight2) 51.77%,
     var(--highlight3) 129.35%
   );
-
+  /* background: linear-gradient(120deg, rgb(249, 216, 231), rgb(206, 231, 254)); */
+  /* background-image: linear-gradient(120deg, rgb(253, 216, 211), rgb(174, 192, 245)); */
 }
 
 .App {
@@ -31,4 +32,16 @@ body {
   flex-direction: ;
   justify-content: center;
   align-items: center; */
+}
+
+.Button.black {
+  background-color: var(--black);
+  color: var(--white);
+    transition: filter box-shadow 200ms ease-in-out;
+}
+.Button.black:hover {
+  filter: opacity(85%);
+}
+.Button.black:focus {
+  box-shadow: 0 0 0 2px var(--black);
 }

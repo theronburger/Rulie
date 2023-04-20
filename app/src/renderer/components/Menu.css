@@ -16,25 +16,13 @@ button {
   box-shadow: 0px 2px 10px hsla(0, 0%, 0%, 0.2);
 }
 
-
-.ToolbarSeparator {
-  width: 1px;
-  background-color: var(--black);
-  margin: 0px 10px;
-}
-
-
-
 .ToolbarButton {
     -webkit-app-region: no-drag;
     flex: 0 0 auto;
-    color: var(--mauve11);
     height: 25px;
     padding: 0 5px;
     border-radius: 4px;
     display: inline-flex;
-    font-size: 13px;
-    line-height: 1;
     align-items: center;
     justify-content: center;
     padding-left: 10px;
