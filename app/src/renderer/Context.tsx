@@ -67,4 +67,4 @@ function useData() {
   return dataContext;
 }
 
-export { DataProvider as EventProvider, useData };
+export { DataProvider, useData };

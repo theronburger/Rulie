@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import SettingsAccountList from './SettingsAccountList';
+import SettingsAccountList from './SettingsAccounts';
 import SettingsAccount from './SettingsAccount';
 
 import './Settings.css';

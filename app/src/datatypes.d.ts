@@ -1,6 +1,7 @@
 import React from 'react';
 
 export type Account = {
+  enabled: boolean;
   email: string;
   username: string;
   password: string;
