@@ -1,4 +1,3 @@
-import React from 'react';
 import * as Select from '@radix-ui/react-select';
 import {
   CheckIcon,
@@ -12,7 +11,7 @@ interface SelectMenuProps {
   areaLabel: string;
   // eslint-disable-next-line no-unused-vars
   onValueChange?: (value: string) => void;
-  className: string;
+  className?: string;
 }
 
 function SelectMenu({
@@ -27,8 +26,10 @@ function SelectMenu({
       <Select.Trigger
         className={`${className} SelectTrigger`}
         aria-label={areaLabel}
+        name={areaLabel}
+        data-testid="select-trigger"
       >
-        <Select.Value placeholder={placeholder} />
+        <Select.Value placeholder={placeholder} data-testid="select-value" />
         <Select.Icon className="SelectIcon">
           <ChevronDownIcon />
         </Select.Icon>
@@ -39,10 +40,11 @@ function SelectMenu({
             <ChevronUpIcon />
           </Select.ScrollUpButton>
           <Select.Viewport className="SelectViewport">
-            {/* TODO: Check out the forwardRef way of doing this in the RadixUI docs > https://www.radix-ui.com/docs/primitives/components/select */}
             {options.map((item) => (
-              <Select.Item value={item} className="SelectItem">
-                <Select.ItemText>{item}</Select.ItemText>
+              <Select.Item key={item} value={item} className="SelectItem">
+                <Select.ItemText data-testid="select-item-text">
+                  {item}
+                </Select.ItemText>
                 <Select.ItemIndicator className="SelectItemIndicator">
                   <CheckIcon />
                 </Select.ItemIndicator>

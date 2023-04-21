@@ -47,7 +47,7 @@ function SettingsAccount({ setPage }: AccountProps) {
             options={protocol}
             areaLabel="Account type"
             placeholder="select"
-            className="AccountInput"
+            className="AccountInputProtocol"
           />
         </Form.Field>
         <Form.Field className="FormField" name="incoming-mail-server">
