@@ -12,6 +12,7 @@ const DataContext = createContext<DataContextType>({} as DataContextType);
 function DataProvider({ children }: { children: ReactNode }) {
   const [accounts, setAccounts] = useState<Account[]>([
     {
+      enabled: true,
       email: 'pftburger@mailbox.org',
       username: 'pftburger@mailbox.org',
       password: 'notARealPass',
