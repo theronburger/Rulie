@@ -1,0 +1,10 @@
+.AccountButtonRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.AccountInput {
+    max-width: 200px ;
+    flex-grow: 1;
+}

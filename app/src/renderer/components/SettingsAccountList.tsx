@@ -1,9 +1,10 @@
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import { Page } from './Settings';
 
 interface SettingsAccountListProps {
-  setPage: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<Page>>;
 }
 
 export default function SettingsAccountList({
@@ -18,7 +19,7 @@ export default function SettingsAccountList({
       <button
         className="Button black"
         type="button"
-        onClick={() => setPage('newAccount')}
+        onClick={() => setPage('new')}
       >
         Add Account...
       </button>

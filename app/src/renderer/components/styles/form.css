@@ -1,0 +1,27 @@
+@import '@radix-ui/colors/blackA.css';
+@import '@radix-ui/colors/violet.css';
+@import '@radix-ui/colors/mauve.css';
+
+
+
+/* .FormRoot {
+} */
+
+
+.FormField {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.FormLabel {
+  color: var(--black);
+  /* font-size: 15px; */
+  /* font-weight: 300; */
+  line-height: 35px;
+}
+
+.FormMessage {
+  font-size: 13px;
+  opacity: 0.8;
+}
