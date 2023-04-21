@@ -50,21 +50,19 @@ const installExtensions = async () => {
 
   return installer
     .default(
-      extensions.map((name) =>
-        Object.assign({}, installer[name], {
-          loadExtensionOptions: { allowFileAccess: true },
-        })
-      ),
+      extensions.map((name) => ({
+        ...installer[name],
+        loadExtensionOptions: { allowFileAccess: true },
+      })),
       forceDownload
     )
     .catch(console.log);
 };
 
-
 const createWindow = async () => {
-  // if (isDebug) {
-  //   await installExtensions();
-  // }
+  if (isDebug) {
+    await installExtensions();
+  }
 
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
