@@ -5,7 +5,7 @@ const srcFolder = 'app/src';
 const docsFolder = 'docs';
 const todoDBPath = path.join(docsFolder, 'todoDB.json');
 const todosMDPath = path.join(docsFolder, 'todos.md');
-const githubRepoRoot = 'https://github.com/theronburger/github-action-test/blob/main';
+const githubRepoRoot = 'https://github.com/theronburger/rulie/blob/main';
 
 
 function searchForTodos(folder) {
