@@ -1,0 +1,8 @@
+[
+  {
+    "filePath": "app/src/renderer/components/Settings.css",
+    "line": 14,
+    "content": "/* background-color: hlsa(var(--black), 0.2); TODO:Does not seem to work */",
+    "done": false
+  }
+]
