@@ -13,7 +13,7 @@ export interface IRuleTimeframe {
   time: ITime | [ITime, ITime];
 }
 
-export interface RuleNotificationSchedule {
+export interface IRuleNotificationSchedule {
   type: 'immediately' | 'every' | 'at';
   time: string;
 }
@@ -23,5 +23,5 @@ export interface IRule {
   name: string;
   filters: IRuleFilter[];
   timeframes: IRuleTimeframe[];
-  notificationSchedule: RuleNotificationSchedule;
+  notificationSchedule: IRuleNotificationSchedule;
 }
