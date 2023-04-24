@@ -1,7 +1,7 @@
 /* eslint-disable no-console, lines-between-class-members, class-methods-use-this */
-// import Imap from 'node-imap';
 import { v4 as uuidv4 } from 'uuid';
 // import { authenticate } from '@google-cloud/local-auth';
+// import { safeStorage } from 'electron';
 import { google } from 'googleapis';
 import ElectronStore from 'electron-store';
 import {
@@ -10,7 +10,6 @@ import {
   IMailStore,
   MailEngineOptions,
 } from './types/mail';
-// import { safeStorage } from 'electron';
 
 class MailEngine {
   private mailStore: ElectronStore;
@@ -65,7 +64,7 @@ class MailEngine {
         // TODO: Do something smarter than just rejecting when the account already exists
         reject(Error('Account already exists'));
       } else {
-        // 4. If it doesn't, add it\
+        // 4. If it doesn't, add it
         // TODO: If the account is a gmail account, ask the user to authenticate
         this.accounts.push(account);
         this.mailStore.set('accounts', this.accounts);
@@ -234,7 +233,7 @@ class MailEngine {
     console.log(
       `🚧 clearStore not implemented yet! called in MailEngine for ${accountId}`
     );
-    // TODO: Implement 
+    // TODO: Implement
     // Clear mail data from the mailStore
     // if accountId is specified, only clear data for that account
     // otherwise, clear all data

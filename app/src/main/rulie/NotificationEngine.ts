@@ -2,7 +2,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import ElectronStore from 'electron-store';
 import { Notification } from 'electron';
-import { ImapMessage } from 'node-imap';
 import { ScheduledNotification } from './types/notifications';
 import { IRule } from './types/rules';
 import { IMail } from './types/mail';
@@ -39,6 +38,8 @@ class NotificationEngine {
       ruleId: rule.id,
       accountId,
       scheduledTime: Date.now(),
+      title: mail.subject ?? 'No subject',
+      body: `From: ${mail.from ?? 'Unknown'}`,
     };
     // 2. Save the ScheduledNotification object in the notificationStore
     this.notifications.push(notification);
@@ -55,12 +56,14 @@ class NotificationEngine {
     // 1. Retrieve all ScheduledNotification objects from the notificationStore
     // 2. Apply filters if provided
     // 3. Return the filtered list of ScheduledNotification objects
+    console.warn('🚧 Getting scheduled notifications not yet implemented');
   }
 
   public clearScheduledNotifications(filters?: {
     ruleId?: string;
     accountId?: string;
   }): void {
+    console.warn('🚧 Clearing scheduled notifications not yet implemented');
     // Clear scheduled notifications with optional filters
     // 1. Retrieve all ScheduledNotification objects from the notificationStore
     // 2. Apply filters if provided

@@ -1,4 +1,4 @@
-/* eslint-disable lines-between-class-members, class-methods-use-this */
+/* eslint-disable lines-between-class-members, class-methods-use-this, no-console */
 import ElectronStore from 'electron-store';
 import { IRule, IRuleFilter, IRuleTimeframe, ITime } from './types/rules';
 import { IMail } from './types/mail';
@@ -19,7 +19,6 @@ class RuleEngine {
     this.rules = this.ruleStore.get('rules', []) as IRule[];
   }
 
-  // Public methods
   public createRule(rule: IRule): Promise<boolean> {
     // Create a new rule
     return new Promise((resolve) => {
@@ -83,26 +82,19 @@ class RuleEngine {
     console.log(`\tagainst filter ${JSON.stringify(filter)}`);
     const searchField =
       (mail[filter.field as keyof IMail] as string | undefined | null) ?? '';
-    let result = false;
     switch (filter.match) {
       case 'is':
-        result = searchField === filter.query;
-        break;
+        return searchField === filter.query;
       case 'contains':
-        result = searchField.includes(filter.query);
-        break;
+        return searchField.includes(filter.query);
       case 'startsWith':
-        result = searchField.startsWith(filter.query);
-        break;
+        return searchField.startsWith(filter.query);
       case 'endsWith':
-        result = searchField.endsWith(filter.query);
-        break;
+        return searchField.endsWith(filter.query);
       default:
         console.warn('💥 Unknown filter match type');
-        break;
+        return false;
     }
-    console.log(`\tresult : ${result ? '✅' : '❌'}`);
-    return result;
   }
   private matchesTimeframe(timeframe: IRuleTimeframe): boolean {
     // Check if a mail matches a timeframe

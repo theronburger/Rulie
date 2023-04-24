@@ -6,13 +6,7 @@ import NotificationEngine from './NotificationEngine';
 import RuleEngine from './RuleEngine';
 import { IMail, IMailAccount } from './types/mail';
 import { IRule } from './types/rules';
-
-// TODO: Move interfaces to src folder
-export interface ISettings {
-  mailInterval: number;
-  notificationInterval: number;
-  theme: string;
-}
+import { ISettings } from './types/general';
 
 class RulieCore {
   private mailEngine: MailEngine;
@@ -33,7 +27,7 @@ class RulieCore {
           // having a settings object inside settings is a bit redundant,
           // but it makes dealing with ElectronStore easier
           mailInterval: 60 * 1000, // 1 minute, maybe too frequent?
-          notificationInterval: 60 * 1000,
+          notificationInterval: 15 * 1000, // 15s is most certainly too frequent!
         },
       },
     });
@@ -51,6 +45,7 @@ class RulieCore {
    */
   private initIPC(): void {
     // Set up IPC listeners for mailEngine
+    // TODO: Create a factory for IPC listeners
     ipcMain.on('getAccounts', (event) => {
       console.log('👑 getAccounts call in rulieCore.ts');
       event.reply('getAccounts', this.mailEngine.listAccounts());
@@ -96,9 +91,6 @@ class RulieCore {
       console.log('👑 deleteRule call in rulieCore.ts');
       event.reply('deleteRule', this.ruleEngine.deleteRule(ruleId));
     });
-
-    // Set up IPC listeners for ruleEngine
-    // ...
 
     // Set up IPC listeners for settings
     ipcMain.on('getSettings', (event) => {
@@ -166,7 +158,7 @@ class RulieCore {
       setTimeout(tick, this.settings.notificationInterval);
     };
     // 5. Call tick to start the chain
-    setTimeout(tick, 10000);
+    setTimeout(tick, 10000); // App needs a few secs to calm down before allowing notifications
   }
 }
 
