@@ -194,39 +194,9 @@ MailEngine uses this to corolate between the server and its internal database, a
 
 
 
-
-
-## General Notes
-
-Implement error handling wherever possible
-Implement logging using sentry.io’s electron package @sentry/electron
-Write code with testing in mind. This make writing the tests later easier. 
-
-Looking forward to your response, 
-Theron
-
-# Notes
-
-`eslint(no-restricted-syntax)`
-iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.
-
-# Prompt  
-+ Write the skeleton of each component commenting extensively 
-+ As the lead dev, you will give this file to the other devs on the team.  Write the spec for each method as a comment within the method so they know what to do.
-+ Declare and export all custom types
-+ Please only write each module when I ask for it.
-+ Please start with the mailEngine (mailEngine.ts)
-
-
-Please write the skeleton of the notificationEngine 
-
-
-
-
 ## Stretch goals
 + The app should be able to be minimized to the menu bar
 + Clicking the notifications should open your mail client of choice, ideally taking you to the mail directly. Maybe using URI magic
-
 
 
 ## Notes 
