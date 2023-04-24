@@ -1,16 +1,23 @@
-import { Rule } from 'datatypes';
+import { IRule } from 'main/rulie/types/rules';
 
 interface RuleListItemProps {
-  rule: Rule;
+  rule: IRule;
 }
 
 export default function RuleListItem({ rule }: RuleListItemProps) {
   return (
     <>
       <div>{rule.name}</div>
-      {rule.conditions.mail.map((mailCondition) => (
-        <div>{`${mailCondition.type}:${mailCondition.area}:${mailCondition.match}:${mailCondition.query}`}</div>
+      <div>Filters</div>
+      {rule.filters.map((filter, i) => (
+        <div key={`ruleFilter:${i}`}>{JSON.stringify(filter)}</div>
       ))}
+      <div>Time Frames</div>
+      {rule.timeframes.map((timeframe) => (
+        <div>{JSON.stringify(timeframe)}</div>
+      ))}
+      <div>Notification Schedule</div>
+      <div>{JSON.stringify(rule.notificationSchedule)}</div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Account } from 'datatypes';
+import { Account } from 'main/rulie/types/context';
 
 interface AccountListItemProps {
   account: Account;
