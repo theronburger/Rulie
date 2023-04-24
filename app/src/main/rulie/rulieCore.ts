@@ -22,6 +22,7 @@ class RulieCore {
   private settings: ISettings;
 
   constructor() {
+    console.log('🌈 RulieCore constructor called');
     this.mailEngine = new MailEngine();
     this.notificationEngine = new NotificationEngine();
     this.ruleEngine = new RuleEngine();
@@ -31,7 +32,7 @@ class RulieCore {
         settings: {
           // having a settings object inside settings is a bit redundant,
           // but it makes dealing with ElectronStore easier
-          mailInterval: 15 * 60 * 1000, // 15 minutes
+          mailInterval: 60 * 1000, // 1 minute, maybe too frequent?
           notificationInterval: 60 * 1000,
         },
       },
@@ -40,6 +41,8 @@ class RulieCore {
 
     // Initialize IPC listeners
     this.initIPC();
+    this.initMailChecking();
+    this.initNotificationUpdating();
   }
 
   /**
@@ -120,18 +123,26 @@ class RulieCore {
   private initMailChecking(): void {
     // Set up a timeout to call mailEngine's checkMail method
     // 1. Set up the onNewMail handler
-    this.mailEngine.onNewMail((mail: IMail) => {
+    this.mailEngine.onNewMail((account: IMailAccount, mail: IMail) => {
       console.log('👑 onNewMail handler in rulieCore.ts got new mail');
       // Check which rules (if any) the mail matches
       // ...
+      const matchedRules = this.ruleEngine.check(mail);
+      console.log(
+        `📨 onNewMail handler in rulieCore.ts got ${matchedRules.length} matched rules`
+      );
+
       // Schedule any notifications using notificationEngine's scheduleNotification method
-      // ...
+      matchedRules.forEach((rule) => {
+        this.notificationEngine.scheduleNotification(mail, rule, account.id);
+      });
       // return result of notificationEngine's scheduleNotification method
       // TODO: Hardcoded return of onNewMail handler, replace with actual return
       return true;
     });
     // 2. Create a tick function to be called by the timeout;
     const tick = () => {
+      console.log('🏤 tick in rulieCore.ts');
       // 3. Call mailEngine's checkAllMail method
       this.mailEngine.checkAllMail();
       // 4. Call the anonymous timeout again after settings.mailInterval
@@ -148,7 +159,14 @@ class RulieCore {
    */
   private initNotificationUpdating(): void {
     // Set up timeout to call notificationEngine's update method
-    // ...
+    const tick = () => {
+      // 3. Call notificationEngine's update method
+      this.notificationEngine.update();
+      // 4. Call the anonymous timeout again after settings.notificationInterval
+      setTimeout(tick, this.settings.notificationInterval);
+    };
+    // 5. Call tick to start the chain
+    setTimeout(tick, 10000);
   }
 }
 

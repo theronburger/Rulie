@@ -57,9 +57,9 @@ const installExtensions = async () => {
 };
 
 const createWindow = async () => {
-  if (isDebug) {
-    await installExtensions();
-  }
+  // if (isDebug) {
+  //   await installExtensions();
+  // }
 
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
@@ -133,6 +133,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    console.log(`storing data in userData : ${app.getPath('userData')}`);
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

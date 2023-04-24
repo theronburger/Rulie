@@ -1,15 +1,16 @@
 export interface IRuleFilter {
   id: string; // UUID
-  type: 'include' | 'exclude';
-  field: 'from' | 'to' | 'cc' | 'bcc' | 'subject' | 'body' | 'all';
+  field: 'from' | 'to' | 'subject' | 'body';
   match: 'contains' | 'is' | 'startsWith' | 'endsWith';
   query: string;
 }
 
+export type ITime = string | number;
+
 export interface IRuleTimeframe {
   id: string; // UUID
   type: 'before' | 'after' | 'between' | 'notBetween';
-  time: string | [string, string];
+  time: ITime | [ITime, ITime];
 }
 
 export interface RuleNotificationSchedule {

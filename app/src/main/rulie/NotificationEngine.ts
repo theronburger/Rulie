@@ -1,8 +1,11 @@
 /* eslint-disable lines-between-class-members, class-methods-use-this  */
+import { v4 as uuidv4 } from 'uuid';
 import ElectronStore from 'electron-store';
 import { Notification } from 'electron';
 import { ImapMessage } from 'node-imap';
 import { ScheduledNotification } from './types/notifications';
+import { IRule } from './types/rules';
+import { IMail } from './types/mail';
 
 class NotificationEngine {
   private notificationStore: ElectronStore;
@@ -24,14 +27,24 @@ class NotificationEngine {
   }
 
   public scheduleNotification(
-    mail: ImapMessage,
-    ruleId: string,
+    mail: IMail,
+    rule: IRule,
     accountId: string
   ): string {
     // Schedule a notification and return its ID
     // 1. Create a ScheduledNotification object with the necessary data
+    const notification: ScheduledNotification = {
+      id: uuidv4(),
+      mailId: mail.id,
+      ruleId: rule.id,
+      accountId,
+      scheduledTime: Date.now(),
+    };
     // 2. Save the ScheduledNotification object in the notificationStore
+    this.notifications.push(notification);
+    this.notificationStore.set('notifications', this.notifications);
     // 3. Return the ID of the newly created ScheduledNotification
+    return notification.id;
   }
 
   public getScheduledNotifications(filters?: {
@@ -56,16 +69,34 @@ class NotificationEngine {
 
   public update(): void {
     // Update the NotificationEngine
-    // 1. Check for any ScheduledNotification objects with scheduledTime in the past
-    // 2. For each of those ScheduledNotification objects, fire the notification using Electron's Notification API
-    // 3. Remove the fired ScheduledNotification objects from the notificationStore
+    // 1. For each of those ScheduledNotification objects, fire the notification using Electron's Notification API
+    let firedNotifications = 0;
+    this.notifications.forEach((notification, index) => {
+      if (notification.scheduledTime <= Date.now()) {
+        this.fireNotification(notification);
+        // 2. Remove the fired ScheduledNotification objects from the notificationStore
+        this.notifications.splice(index, 1);
+        firedNotifications += 1;
+      }
+    });
+    if (firedNotifications > 0) {
+      this.notificationStore.set('notifications', this.notifications);
+    }
   }
 
-  // TODO: The createNotification method should may be redundant
-  private createNotification(mail: ImapMessage, ruleId: string): Notification {
+  private fireNotification(notification: ScheduledNotification): void {
     // Create an Electron Notification instance
-    // 1. Set the necessary notification properties based on the ImapMessage and ruleId
-    // 2. Return the newly created Notification instance
+    console.log(`Firing notification '${notification.title}'`);
+    // 1. Set the necessary notification properties
+    const newNotification = new Notification({
+      title: notification.title,
+      body: notification.body,
+    });
+    newNotification.on('click', () => {
+      console.log('Notification clicked');
+    });
+    // 2. Fire it!
+    newNotification.show();
   }
 }
 

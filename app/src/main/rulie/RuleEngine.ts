@@ -1,7 +1,7 @@
 /* eslint-disable lines-between-class-members, class-methods-use-this */
 import ElectronStore from 'electron-store';
-import { ImapMessage } from 'node-imap';
-import { IRule, IRuleFilter, IRuleTimeframe } from './types/rules';
+import { IRule, IRuleFilter, IRuleTimeframe, ITime } from './types/rules';
+import { IMail } from './types/mail';
 
 class RuleEngine {
   private ruleStore: ElectronStore;
@@ -12,35 +12,10 @@ class RuleEngine {
     this.ruleStore = new ElectronStore({
       name: 'ruleStore',
       defaults: {
-        rules: [
-          {
-            id: '1',
-            name: 'Work Colleagues',
-            filters: [
-              {
-                type: 'include',
-                field: 'from',
-                match: 'endsWith',
-                query: '@domain.com',
-              },
-              {
-                type: 'exclude',
-                field: 'from',
-                match: 'is',
-                query: 'bigboss@domain.com',
-              },
-            ],
-            timeframes: [
-              { type: 'after', time: '9:00' },
-              { type: 'before', time: '17:00' },
-            ],
-            notificationSchedule: { type: 'every', time: '2h' },
-          },
-        ],
+        rules: [],
       },
     });
     // Initialize rules
-    this.ruleStore.clear()
     this.rules = this.ruleStore.get('rules', []) as IRule[];
   }
 
@@ -85,26 +60,79 @@ class RuleEngine {
     return this.rules;
   }
 
-  public check(mail: ImapMessage): IRule[] {
+  public check(mail: IMail): IRule[] {
     // Check mail against rules and return matched rules
+    console.log(`🔎 Checking mail ${mail.id} against rules`);
     return this.rules.filter((rule) => {
       return (
-        this.matchesFilter(rule.filter, mail) &&
-        this.matchesTimeframe(rule.timeframe, mail)
+        // reduce the filters by checking each filter with matchesFilter
+        rule.filters.reduce((acc, filter) => {
+          return acc || this.matchesFilter(filter, mail);
+        }, true) &&
+        // reduce the timeframes by checking each timeframe with matchesTimeframe
+        rule.timeframes.reduce((acc, timeframe) => {
+          return acc || this.matchesTimeframe(timeframe);
+        }, true)
       );
     });
   }
 
   // Private methods
-  private matchesFilter(filter: IRuleFilter, mail: ImapMessage): boolean {
+  private matchesFilter(filter: IRuleFilter, mail: IMail): boolean {
     // Check if a mail matches a filter
+    console.log(`\tagainst filter ${JSON.stringify(filter)}`);
+    const searchField =
+      (mail[filter.field as keyof IMail] as string | undefined | null) ?? '';
+    let result = false;
+    switch (filter.match) {
+      case 'is':
+        result = searchField === filter.query;
+        break;
+      case 'contains':
+        result = searchField.includes(filter.query);
+        break;
+      case 'startsWith':
+        result = searchField.startsWith(filter.query);
+        break;
+      case 'endsWith':
+        result = searchField.endsWith(filter.query);
+        break;
+      default:
+        console.warn('💥 Unknown filter match type');
+        break;
+    }
+    console.log(`\tresult : ${result ? '✅' : '❌'}`);
+    return result;
   }
-
-  private matchesTimeframe(
-    timeframe: IRuleTimeframe,
-    mail: ImapMessage
-  ): boolean {
+  private matchesTimeframe(timeframe: IRuleTimeframe): boolean {
     // Check if a mail matches a timeframe
+    function parseTime(time: ITime): Date {
+      const date = new Date();
+      const [hours, minutes] =
+        typeof time === 'string' ? time.split(':').map(Number) : [time, 0];
+      date.setHours(hours, minutes, 0, 0);
+      return date;
+    }
+
+    const currentTime = new Date();
+
+    switch (timeframe.type) {
+      case 'before':
+        return currentTime < parseTime(timeframe.time as ITime);
+      case 'after':
+        return currentTime > parseTime(timeframe.time as ITime);
+      case 'between':
+      case 'notBetween': {
+        const [startTime, endTime] = (timeframe.time as [ITime, ITime]).map(
+          parseTime
+        );
+        const isBetween = currentTime >= startTime && currentTime <= endTime;
+        return timeframe.type === 'between' ? isBetween : !isBetween;
+      }
+      default:
+        console.warn('💥 Unknown timeframe type');
+        return false;
+    }
   }
 }
 
