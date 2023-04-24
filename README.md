@@ -1,7 +1,11 @@
+<img src="docs/rulie.png" width="50%" />
+
 # Rulie
 
 Rulie is a small mail notification bot that lets you choose which mails notify you, and when!
 
+## Spec
+[Check out the rulie spec](app/README.md)
 
 ## Development
 

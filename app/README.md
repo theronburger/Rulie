@@ -1,38 +1,6 @@
-<img src=".erb/img/erb-banner.svg" width="100%" />
+<img src="../docs/rulie.png" width="50%" />
 
-<br>
-
-<p>
-  Electron React Boilerplate uses <a href="https://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="https://webpack.js.org/">Webpack</a> and <a href="https://www.npmjs.com/package/react-refresh">React Fast Refresh</a>.
-</p>
-
-<br>
-
-<div align="center">
-
-[![Build Status][github-actions-status]][github-actions-url]
-[![Github Tag][github-tag-image]][github-tag-url]
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/Fjy3vfgy5q)
-
-[![OpenCollective](https://opencollective.com/electron-react-boilerplate-594/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/electron-react-boilerplate-594/sponsors/badge.svg)](#sponsors)
-[![StackOverflow][stackoverflow-img]][stackoverflow-url]
-
-</div>
-
-## Install
-
-Clone the repo and install dependencies:
-
-```bash
-git clone --depth 1 --branch main https://github.com/electron-react-boilerplate/electron-react-boilerplate.git your-project-name
-cd your-project-name
-npm install
-```
-
-**Having issues installing? See our [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
-
-## Starting Development
+# Getting Started
 
 Start the app in the `dev` environment:
 
@@ -48,112 +16,190 @@ To package apps for the local platform:
 npm run package
 ```
 
-## Docs
 
-See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
+# Rulie Spec
+Separation of concerns is vital. We’ve been bitten by technical debt in the past and would like to keep things as modular as possible in future. If you need an update please check out Clean Code by Robert Cecil Martin. Feel free to take some time to check out the coding books in the library. 
 
-## Community
+# Rulie Architecture Planning
+The app, Rulie gives users granular control over mail notifications by allowing them to define rules about which mails should notify them, and when those notifications should happen.
 
-Join our Discord: https://discord.gg/Fjy3vfgy5q
+## Rules 
+Rules have three parts 
++ The filter (filtering which mail it applies to)
++ The timeframe (when during the day should this rule be applied)
++ The notification schedule (when the notification should be fired)
 
-## Sponsors
+For displaying the rules, they have an aditional property `name`
 
-<a href="https://palette.dev">
-  <img src=".erb/img/palette-sponsor-banner.svg" width="100%" />
-</a>
+```typescript
+export interface IRuleFilter {
+  id: string; // UUID
+  type: 'include' | 'exclude'; // Whether the filter adds to or removes from the selection
+  field: 'from' | 'to' | 'cc' | 'bcc' | 'subject' | 'body' | 'all'; // Mail property to query
+  match: 'contains' | 'is' | 'startsWith' | 'endsWith';  // Query type 
+  query: string;
+}
 
-## Donations
+export interface IRuleTimeframe {
+  id: string; // UUID
+  type: 'before' | 'after' | 'between' | 'notBetween';  
+  time: number | [number, number];  // JS Date, milliseconds that has elapsed since the epoch
+}
 
-**Donations will ensure the following:**
+export interface RuleNotificationSchedule {
+  type: 'immediately' | 'every' | 'at';
+  time: number; // time in milliseconds. 17:00 would be 17 * 60 * 60 * 1000
+}
 
-- 🔨 Long term maintenance of the project
-- 🛣 Progress on the [roadmap](https://electron-react-boilerplate.js.org/docs/roadmap)
-- 🐛 Quick responses to bug reports and help requests
+export interface IRule {
+  id: string; // UUID
+  name: string; // A user settable display name for the rule
+  filters: IRuleFilter[]; 
+  timeframes: IRuleTimeframe[];
+  notificationSchedule: RuleNotificationSchedule;
+}
 
-## Backers
+```
 
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/electron-react-boilerplate-594#backer)]
 
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/0/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/0/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/1/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/1/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/2/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/2/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/3/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/3/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/4/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/4/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/5/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/5/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/6/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/6/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/7/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/7/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/8/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/8/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/9/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/9/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/10/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/10/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/11/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/11/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/12/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/12/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/13/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/13/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/14/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/14/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/15/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/15/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/16/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/16/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/17/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/17/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/18/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/18/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/19/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/19/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/20/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/20/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/21/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/21/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/22/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/22/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/23/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/23/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/24/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/24/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/25/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/25/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/26/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/26/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/27/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/27/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/28/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/28/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/backer/29/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/backer/29/avatar.svg"></a>
 
-## Sponsors
+## App Structure 
+Rulie is an Electron App.
+Electron apps have a renderer (Renderer / UI) and a main process (Like a backend)
+The main process is located at src/main.
+It launches via main.ts
+main.ts creates a mainWindow and renders the “frontend” via index.html (transpiled from index.tsx)
+The **renderer** is located at src/renderer and is built in React
 
-Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/electron-react-boilerplate-594-594#sponsor)]
+In the UI users can can :
++ Manage (CRUD) rules
+  + Stretch goal feature : While editing a rule, the UI should show matches to help writing the rule
 
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/0/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/1/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/2/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/3/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/4/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/5/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/6/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/7/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/8/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/9/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/9/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/10/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/10/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/11/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/11/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/12/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/12/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/13/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/13/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/14/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/14/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/15/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/15/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/16/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/16/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/17/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/17/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/18/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/18/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/19/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/19/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/20/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/20/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/21/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/21/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/22/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/22/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/23/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/23/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/24/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/24/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/25/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/25/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/26/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/26/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/27/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/27/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/28/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/28/avatar.svg"></a>
-<a href="https://opencollective.com/electron-react-boilerplate-594/sponsor/29/website" target="_blank"><img src="https://opencollective.com/electron-react-boilerplate-594/sponsor/29/avatar.svg"></a>
++ Manage (CRUD) email accounts
+  + Stretch goal feature : The app should provide a test button to check the account settings.
+  + Stretch goal feature : Provide other auth methods.
 
-## Maintainers
++ Manage the app settings
+  + Stretch goal feature : Add themes & dark mode
 
-- [Amila Welihinda](https://github.com/amilajack)
-- [John Tran](https://github.com/jooohhn)
-- [C. T. Lin](https://github.com/chentsulin)
-- [Jhen-Jie Hong](https://github.com/jhen0409)
 
-## License
+Rulie's **backend** logic is located at `src/main/rulie`. `rulieCote.ts` exports a class which is initialized from `main.ts`
 
-MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplate)
+There are four main components that extend the Electron **main process.**
++ coreController (rulieCore.ts)
++ mailEngine (an instance of the MailEngine class, imported into coreController from MailEngine.ts )
++ notificationEngine (an instance of the NotificationEngine class, imported int coreController from NotificationEngine)
++ ruleEngine (an instance of the RuleEngine class, imported int coreController from RuleEngine.ts)
 
-[github-actions-status]: https://github.com/electron-react-boilerplate/electron-react-boilerplate/workflows/Test/badge.svg
-[github-actions-url]: https://github.com/electron-react-boilerplate/electron-react-boilerplate/actions
-[github-tag-image]: https://img.shields.io/github/tag/electron-react-boilerplate/electron-react-boilerplate.svg?label=version
-[github-tag-url]: https://github.com/electron-react-boilerplate/electron-react-boilerplate/releases/latest
-[stackoverflow-img]: https://img.shields.io/badge/stackoverflow-electron_react_boilerplate-blue.svg
-[stackoverflow-url]: https://stackoverflow.com/questions/tagged/electron-react-boilerplate
+## coreController (main process)
+ The main entry point created in rulieCore.ts
+
+coreController is exported from rulieCore.ts and called from Electron’s src/main/main.ts
+The general pattern is each engine is initialized from within the coreController. 
+Each engine maintains its own json data store using the electron-store package [📝 docs]( https://www.npmjs.com/package/electron-store)
+All communication with the renderer happens at the coreController level via Inter Process Communication [📝 docs](https://www.electronjs.org/docs/latest/tutorial/ipc)
+
+### Spec 
++ Is a typescript class
++ Initialises an instance of mailEngine
++ Initialises an instance of notificationEngine
++ Initialises an instance of ruleEngine
++ Manages settings using an ElectronStore named `settings`
++ Provides an IPC API for mailEngine, notificationEngine, ruleEngine & settings
++ Interface between the three engines 
+
+#### Engine Interfacing 
++ controls a recusrive timeout calling mailEngine’s `checkMail` method.
++ controls a recusrive timeout calling notificationEngine `update` method.
++ passes a `handleMail` method to mailEngine’s `onNewMail` method.
+  + `handleMail` should use ruleEngine’s `check` method to check which rules (if any) the mail matches
+  + For each match, `handleMail` shold and use notificationEngine’s `scheduleNotification` to schedule any notifications. 
+
+
+#### Settings
++ Mail checking interval
++ Scheduler interval
++ App theme
+
+## MailEngine (class, main process)
+
+The mailEngine provides methods to monitor multiple mail accounts for new mails and keep track of which mails have been processed. 
+
+### Spec 
+
++ Is a typescript class
++ Should be as event driven as possible.
++ Uses node-imap [📝 docs](https://www.npmjs.com/package/node-imap)
++ Manages multiple mail account
++ Use an electron-store instance, named mailStore.
++ Manages its internal data using mailStore, so that if the app is closed unexpectedly nothing is lost. 
++ Account passwords are encrypted using safeStorage.encryptString(plainText)  & safeStorage.decryptString(encrypted)
++ Accounts have an enabled flag, and are only be checked if they are enabled.
++ Provides public methods to list, create, update, test and delete accounts.
++ Provide a public method `onNewMail` that accepts a callback `handleNewMail` which is passed the new mail. 
+  + The callback should accept an argument of ImapMessage.
+  + The callback returns true on successfully handling the mail or false on failure.
+
++ Provides a public method `checkAllMail` called externally to trigger mail checking. 
++ Has a private method `checkMail(account)` that :
+  + checks an account for new mail, saving it in the mailStore untill handled.
+  + Queries the server for recent mails. (one week or newer) 
+  + Calls the `handleNewMail` callback set by onNewMail on all unhandled mail in the mailStore. Note that if mail was not handled last call, it should be handled as well. 
+  + If the `handleNewMail` returns true, `checkMail` flags the mail as handled in the mailStore and cleans up the ImapMessage stored in the mail's data property as it is no longer needed.
++ Provides a public method `clearStore(account)`. `account` is optional, if not set it clears all mail in the mailStore.
++ Provides `setOptions` and `getOptions` methods, for any additional options.
+
+### MailEngine Notes
+
+ImapMessage has a property uid (A 32-bit ID that uniquely identifies this message within its mailbox)
+
+MailEngine uses this to corolate between the server and its internal database, alowing it to keep track of which mails have been downloaded and processed. 
+
+## NotificationEngine (class, main process)
+
+
+
+### Spec
+
++ A typescript class to schedule and manage scheduled notifications.
++ Be as event driven as possible.
++ use Electrons Notification API.
++ Use an electron-store instance, named notificationStore.
++ Manage it’s internal data using notificationStore, so that if the app is closed unexpectedly nothing is lost. 
++ Provide a public method `scheduleNotification`. Calling it should return the scheduled notification’s ID.
++ Manage a database of notifications (using electron-store) so that scheduled notifications persist if the app is restarted.
++ Keep track of which mail account each notification belongs to.
++ Remove notifications from the database when they are fired, making sure to update notificationStore.
++ Instead of having an internal timer, it should provide a method `update` that is called externally (from coreController) and fires any notifications whose scheduled time is in the past. 
++ Provide a method to get scheduled notifications, taking optional filters like rule or mail account.
++ Provide a method to clear scheduled notifications, taking optional filters like rule or mail account.
+
+
+
+## RuleEngine (class, main process)
+
+
+
+### Spec 
+
++ A typescript class to apply rules to mails to schedule notifications.
++ Be as event driven as possible.
++ Use an electron-store instance, named ruleStore.
++ Manage it’s internal data using ruleStore, so that if the app is closed unexpectedly nothing is lost. 
++ Provide a method `check` that accepts mail data via a ImapMessage argument and returns any matched rules.
+
+
+
+## UI ( react, renderer)
+
+
+
+## Stretch goals
++ The app should be able to be minimized to the menu bar
++ Clicking the notifications should open your mail client of choice, ideally taking you to the mail directly. Maybe using URI magic
+
+
+## Notes 
+
++ enableRemoteModule look interesting
++ IPC guide https://www.electronjs.org/docs/latest/tutorial/ipc

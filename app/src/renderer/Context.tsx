@@ -1,8 +1,11 @@
-import { Account, DataContextType, Rule } from 'datatypes';
+import { DataContextType } from 'main/rulie/types/context';
+import { IMailAccount } from 'main/rulie/types/mail';
+import { IRule } from 'main/rulie/types/rules';
 import React, {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -10,43 +13,21 @@ import React, {
 const DataContext = createContext<DataContextType>({} as DataContextType);
 
 function DataProvider({ children }: { children: ReactNode }) {
-  const [accounts, setAccounts] = useState<Account[]>([
-    {
-      enabled: true,
-      email: 'pftburger@mailbox.org',
-      username: 'pftburger@mailbox.org',
-      password: 'notARealPass',
-      type: 'IMAP',
-      serverIncoming: '',
-      serverOutgoing: '',
-    },
-  ]);
-  const [rules, setRules] = useState<Rule[]>([
-    {
-      name: 'Work Colleagues',
-      conditions: {
-        mail: [
-          {
-            type: 'include',
-            area: 'from',
-            match: 'endsWith',
-            query: '@domain.com',
-          },
-          {
-            type: 'exclude',
-            area: 'from',
-            match: 'is',
-            query: 'bigboss@domain.com',
-          },
-        ],
-        time: [
-          { type: 'after', time: '9:00' },
-          { type: 'before', time: '17:00' },
-        ],
-      },
-      notify: { type: 'every', time: '2h' },
-    },
-  ]);
+  const [accounts, setAccounts] = useState<IMailAccount[]>([]);
+  const [rules, setRules] = useState<IRule[]>([]);
+
+  // TODO: Create a generic handler for requesting and storing data shared via ipc
+  useEffect(() => {
+    window.electron.ipcRenderer.once('getAccounts', (arg) => {
+      setAccounts(arg as IMailAccount[]);
+    });
+    window.electron.ipcRenderer.sendMessage('getAccounts');
+
+    window.electron.ipcRenderer.once('getRules', (arg) => {
+      setRules(arg as IRule[]);
+    });
+    window.electron.ipcRenderer.sendMessage('getRules');
+  }, []);
 
   const dataContextValue = useMemo(
     () => ({ accounts, setAccounts, rules, setRules }),
