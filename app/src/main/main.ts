@@ -50,7 +50,10 @@ const installExtensions = async () => {
 
   return installer
     .default(
-      extensions.map((name) => installer[name]),
+      extensions.map((name) => ({
+        ...installer[name],
+        loadExtensionOptions: { allowFileAccess: true },
+      })),
       forceDownload
     )
     .catch(console.log);
@@ -78,6 +81,12 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+    },
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#2f3241',
+      symbolColor: '#74b1be',
+      height: 50,
     },
   });
 

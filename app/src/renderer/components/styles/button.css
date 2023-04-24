@@ -1,0 +1,48 @@
+
+.Button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0 15px;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    height: 35px;
+  }
+  
+  .IconButton {
+    font-family: inherit;
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--violet11);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  /* .IconButton:hover {
+    background-color: var(--violet4);
+  }
+  .IconButton:focus {
+    box-shadow: 0 0 0 2px var(--violet7);
+  }
+ */
+
+.Button.black {
+    background-color: var(--black);
+    color: var(--white);
+      transition: filter box-shadow 200ms ease-in-out;
+  }
+  .Button.black:hover {
+    filter: opacity(85%);
+  }
+  .Button.black:focus {
+    box-shadow: 0 0 0 2px var(--black);
+  }
+  
+  

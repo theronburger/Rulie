@@ -2,19 +2,50 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+:root {
+  --highlight1: hsla(50, 100%, 58%);
+  --highlight2: hsla(338, 67%, 61%);
+  --highlight3: hsla(281, 56%, 40%);
+  --black: hsla(285, 0%, 15%);
+  --darkgrey: hsl(276, 0%, 30%);
+  --grey: hsla(285, 0%, 60%);
+  --lightgrey: hsla(285, 0%, 80%);
+  --white: hsla(60, 0%, 100%);
+}
+
 body {
   position: relative;
-  color: white;
   height: 100vh;
   background: linear-gradient(
     200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
+    var(--highlight1) -29.09%,
+    var(--highlight2) 51.77%,
+    var(--highlight3) 129.35%
   );
-  font-family: sans-serif;
-  overflow-y: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* background: linear-gradient(120deg, rgb(249, 216, 231), rgb(206, 231, 254)); */
+  /* background-image: linear-gradient(120deg, rgb(253, 216, 211), rgb(174, 192, 245)); */
 }
+
+.App {
+  flex-grow: 1;
+  font-family: sans-serif;
+  overflow: hidden;
+  /* display: flex;
+  flex-direction: ;
+  justify-content: center;
+  align-items: center; */
+}
+
+/* .Fieldset {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+} */
+
+/* .Label {
+  font-size: 15px;
+  color: var(--black);
+  width: 90px;
+  text-align: right;
+} */

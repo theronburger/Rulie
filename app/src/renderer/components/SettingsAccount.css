@@ -1,0 +1,15 @@
+.AccountButtonRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.AccountInput {
+    max-width: 200px ;
+    flex-grow: 1;
+}
+/* TODO: for some reason the select menu is wider. Ideally this should be fixed without manually setting width */
+.AccountInputProtocol {
+    max-width: 168px;
+    flex-grow: 1;
+}

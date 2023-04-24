@@ -1,0 +1,26 @@
+[
+  {
+    "filePath": "app/src/renderer/components/Settings.css",
+    "line": 14,
+    "content": "/* background-color: hlsa(var(--black), 0.2); TODO:Does not seem to work */",
+    "done": true
+  },
+  {
+    "filePath": "app/src/renderer/components/SelectMenu.tsx",
+    "line": 42,
+    "content": "{/* TODO: Check out the forwardRef way of doing this in the RadixUI docs > https://www.radix-ui.com/docs/primitives/components/select */}",
+    "done": true
+  },
+  {
+    "filePath": "app/src/renderer/components/styles/dialog.css",
+    "line": 2,
+    "content": "/* background-color: hlsa(var(--black), 0.2); TODO:Does not seem to work */",
+    "done": false
+  },
+  {
+    "filePath": "app/src/renderer/components/SettingsAccount.css",
+    "line": 11,
+    "content": "/* TODO: for some reason the select menu is wider. Ideally this should be fixed without manually setting width */",
+    "done": false
+  }
+]
