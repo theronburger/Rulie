@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "version": "4.6.0",
-  "description": "A foundation for scalable desktop apps",
+  "name": "rulie",
+  "version": "0.1.0",
+  "description": "A helpful little bot to take control over your mail notifications. ",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Theron Burger",
+    "email": "rulie@theronburger.com",
+    "url": "https://rulie.app"
   },
   "main": "./dist/main/main.js",
   "scripts": {
