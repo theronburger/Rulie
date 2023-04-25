@@ -29,7 +29,7 @@ export default function RuleListItem({
         className
       )}
       {...props}
-      onMouseEnter={() => setHover(false)}
+      onMouseEnter={() => setHover(!(rule.filters.length > 0))}
       onMouseLeave={() => setHover(true)}
     >
       <div className="absolute w-full h-full flex justify-end items-center pr-5">

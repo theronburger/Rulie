@@ -3,9 +3,8 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 :root {
-  --highlight1: hsla(50, 100%, 58%);
-  --highlight2: hsla(338, 67%, 61%);
-  --highlight3: hsla(281, 56%, 40%);
+  --highlight1: hsl(17, 100%, 65%);
+  --highlight3: hsl(345, 100%, 61%);
   --black: hsla(285, 0%, 15%);
   --darkgrey: hsl(276, 0%, 30%);
   --grey: hsla(285, 0%, 60%);
@@ -17,9 +16,9 @@ body {
   position: relative;
   height: 100vh;
   background: linear-gradient(
-    200.96deg,
+    35deg,
     var(--highlight1) -29.09%,
-    var(--highlight2) 51.77%,
+    /* var(--highlight2) 51.77%, */
     var(--highlight3) 129.35%
   );
   /* background: linear-gradient(120deg, rgb(249, 216, 231), rgb(206, 231, 254)); */

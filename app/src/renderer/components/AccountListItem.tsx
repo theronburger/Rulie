@@ -1,12 +1,12 @@
-import { Account } from 'main/rulie/types/context';
+import { IMailAccount } from 'main/rulie/types/mail';
 
 interface AccountListItemProps {
-  account: Account;
+  account: IMailAccount;
 }
 
 export default function AccountListItem({ account }: AccountListItemProps) {
   return (
-    <div className='py-5'>
+    <div className="py-5">
       <div>{account.email}</div>
       <div>Enabled : {account.enabled ? '✅' : '❌'}</div>
     </div>
