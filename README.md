@@ -1,4 +1,4 @@
-<img src="docs/rulie.png" width="50%" />
+<img src="identity/Logo.png" width="50%" />
 
 # Rulie
 
