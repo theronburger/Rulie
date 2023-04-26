@@ -30,7 +30,7 @@ export default function Home() {
                       </div>
 
           <Image
-            className={styles.logo}
+            className={styles.screenshot}
             src="/screenshot.png"
             alt="Rulie app screenshot"
             width={343}
@@ -50,7 +50,7 @@ export default function Home() {
               📝 Docs 
             </h2>
             <p className={poppins300.className}>
-              Take a read though rulie's dev docs
+              Take a read though rulie&apos;s dev docs
             </p>
           </a>
 
