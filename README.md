@@ -1,6 +1,4 @@
-<img src="identity/Logo.png" width="50%" />
-
-# Rulie
+<img src="identity/logo-banner.png" width="50%" alt="Rulie Logo Banner"/>
 
 Rulie is a small mail notification bot that lets you choose which mails notify you, and when!
 
