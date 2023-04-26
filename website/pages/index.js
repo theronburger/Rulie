@@ -20,21 +20,21 @@ export default function Home() {
       <Image
             className={styles.logo}
             src="/logo-banner.png"
-            alt="Rulie app screenshot"
+            alt="Rulie logo banner"
             width={300}
             height={100}
             priority
           />
-          <div className={poppins300.className}>
+          <h3 className={poppins300.className}>
           Take control of mail notifications!
-                      </div>
+                      </h3>
 
           <Image
             className={styles.screenshot}
             src="/screenshot.png"
             alt="Rulie app screenshot"
-            width={343}
-            height={420}
+            width={600}
+            height={600}
             priority
           />
           
@@ -69,7 +69,7 @@ export default function Home() {
           </a>
 
           <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://github.com/theronburger/Rulie"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
