@@ -1,4 +1,5 @@
-<img src="../identity/Logo.png" width="50%" />
+<img src="../identity/logo-banner.png" width="50%" alt="Rulie Logo Banner"/>
+
 
 # Getting Started
 
