@@ -3,7 +3,9 @@
 
 # Getting Started
 
-Start the app in the `dev` environment:
+### WARNINGS
++ There is no auth. You will need to generate a auth token and copy it into a file hidden somewhere in the user folder. Here be dragons. Auth / Guide to follow. 
++ The front end code uses CSS and Tailwind semi randomly and in a very interconnected way. Here be more dragons
 
 ```bash
 npm start
@@ -16,6 +18,7 @@ To package apps for the local platform:
 ```bash
 npm run package
 ```
+
 
 # Rulie Architecture Planning
 The app, Rulie gives users granular control over mail notifications by allowing them to define rules about which mails should notify them, and when those notifications should happen.
