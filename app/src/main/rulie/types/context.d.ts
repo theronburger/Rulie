@@ -7,4 +7,6 @@ export type DataContextType = {
   setAccounts: React.Dispatch<React.SetStateAction<IMailAccount[]>>;
   rules: IRule[];
   setRules: React.Dispatch<React.SetStateAction<IRule[]>>;
+  editingRuleId: string;
+  setEditingRuleId: React.Dispatch<React.SetStateAction<string>>;
 };

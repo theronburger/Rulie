@@ -1,4 +1,4 @@
-<img src="../docs/rulie.png" width="50%" />
+<img src="../identity/Logo.png" width="50%" />
 
 # Getting Started
 
@@ -15,10 +15,6 @@ To package apps for the local platform:
 ```bash
 npm run package
 ```
-
-
-# Rulie Spec
-Separation of concerns is vital. We’ve been bitten by technical debt in the past and would like to keep things as modular as possible in future. If you need an update please check out Clean Code by Robert Cecil Martin. Feel free to take some time to check out the coding books in the library. 
 
 # Rulie Architecture Planning
 The app, Rulie gives users granular control over mail notifications by allowing them to define rules about which mails should notify them, and when those notifications should happen.

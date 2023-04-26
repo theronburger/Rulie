@@ -1,13 +1,16 @@
 .main {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 6rem;
+  padding-top: 3rem;
   min-height: 100vh;
 }
 
 .description {
+  position: absolute;
   display: inherit;
   justify-content: inherit;
   align-items: inherit;
@@ -41,7 +44,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
+  grid-template-columns: repeat(3, minmax(25%, auto));
   width: var(--max-width);
   max-width: 100%;
 }

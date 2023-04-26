@@ -3,8 +3,6 @@ import * as Dialog from '@radix-ui/react-dialog';
 import SettingsAccountList from './SettingsAccounts';
 import SettingsAccount from './SettingsAccount';
 
-import './Settings.css';
-
 interface SettingsProps {
   trigger?: React.ReactNode;
 }

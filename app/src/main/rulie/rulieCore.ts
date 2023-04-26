@@ -46,14 +46,22 @@ class RulieCore {
   private initIPC(): void {
     // Set up IPC listeners for mailEngine
     // TODO: Create a factory for IPC listeners
+    ipcMain.on('bang', (event, args) => {
+      console.log('💥 bang call in rulieCore.ts with args: ', args);
+      event.reply('bang', 'bang');
+    });
+
     ipcMain.on('getAccounts', (event) => {
       console.log('👑 getAccounts call in rulieCore.ts');
       event.reply('getAccounts', this.mailEngine.listAccounts());
     });
 
-    ipcMain.on('createAccount', (event, account: IMailAccount) => {
+    ipcMain.on('createAccount', async (event, account: IMailAccount) => {
       console.log('👑 createAccount call in rulieCore.ts');
-      event.reply('createAccount', this.mailEngine.createAccount(account));
+      event.reply(
+        'createAccount',
+        await this.mailEngine.createAccount(account)
+      );
     });
 
     ipcMain.on('updateAccount', (event, account: IMailAccount) => {
@@ -61,14 +69,17 @@ class RulieCore {
       event.reply('updateAccount', this.mailEngine.updateAccount(account));
     });
 
-    ipcMain.on('testAccount', (event, account: IMailAccount) => {
+    ipcMain.on('testAccount', async (event, account: IMailAccount) => {
       console.log('👑 testAccount call in rulieCore.ts');
-      event.reply('testAccount', this.mailEngine.testAccount(account));
+      event.reply('testAccount', await this.mailEngine.testAccount(account));
     });
 
-    ipcMain.on('deleteAccount', (event, accountId: string) => {
+    ipcMain.on('deleteAccount', async (event, accountId: string) => {
       console.log('👑 deleteAccount call in rulieCore.ts');
-      event.reply('deleteAccount', this.mailEngine.deleteAccount(accountId));
+      event.reply(
+        'deleteAccount',
+        await this.mailEngine.deleteAccount(accountId)
+      );
     });
 
     // Set up IPC listeners for ruleEngine
@@ -77,19 +88,19 @@ class RulieCore {
       event.reply('getRules', this.ruleEngine.listRules());
     });
 
-    ipcMain.on('createRule', (event, rule: IRule) => {
+    ipcMain.on('createRule', async (event, rule: IRule) => {
       console.log('👑 createRule call in rulieCore.ts');
-      event.reply('createRule', this.ruleEngine.createRule(rule));
+      event.reply('createRule', await this.ruleEngine.createRule(rule));
     });
 
-    ipcMain.on('updateRule', (event, rule: IRule) => {
+    ipcMain.on('updateRule', async (event, rule: IRule) => {
       console.log('👑 updateRule call in rulieCore.ts');
-      event.reply('updateRule', this.ruleEngine.updateRule(rule));
+      event.reply('updateRule', await this.ruleEngine.updateRule(rule));
     });
 
-    ipcMain.on('deleteRule', (event, ruleId: string) => {
+    ipcMain.on('deleteRule', async (event, ruleId: string) => {
       console.log('👑 deleteRule call in rulieCore.ts');
-      event.reply('deleteRule', this.ruleEngine.deleteRule(ruleId));
+      event.reply('deleteRule', await this.ruleEngine.deleteRule(ruleId));
     });
 
     // Set up IPC listeners for settings

@@ -1,3 +1,5 @@
+import { IpcRenderer } from 'electron';
+import { IIpcEvent, createIpcHandler } from 'lib/ipc';
 import { DataContextType } from 'main/rulie/types/context';
 import { IMailAccount } from 'main/rulie/types/mail';
 import { IRule } from 'main/rulie/types/rules';
@@ -13,25 +15,33 @@ import React, {
 const DataContext = createContext<DataContextType>({} as DataContextType);
 
 function DataProvider({ children }: { children: ReactNode }) {
+  // TODO: Create custom hook for IPC based state
   const [accounts, setAccounts] = useState<IMailAccount[]>([]);
   const [rules, setRules] = useState<IRule[]>([]);
+  const [editingRuleId, setEditingRuleId] = useState<string>('');
 
-  // TODO: Create a generic handler for requesting and storing data shared via ipc
   useEffect(() => {
-    window.electron.ipcRenderer.once('getAccounts', (arg) => {
+    window.electron.ipcRenderer.on('getAccounts', (arg) => {
       setAccounts(arg as IMailAccount[]);
     });
-    window.electron.ipcRenderer.sendMessage('getAccounts');
+    window.electron.ipcRenderer.send('getAccounts');
 
-    window.electron.ipcRenderer.once('getRules', (arg) => {
+    window.electron.ipcRenderer.on('getRules', (arg) => {
       setRules(arg as IRule[]);
     });
-    window.electron.ipcRenderer.sendMessage('getRules');
+    window.electron.ipcRenderer.send('getRules');
   }, []);
 
   const dataContextValue = useMemo(
-    () => ({ accounts, setAccounts, rules, setRules }),
-    [accounts, setAccounts, rules, setRules]
+    () => ({
+      accounts,
+      setAccounts,
+      rules,
+      setRules,
+      editingRuleId,
+      setEditingRuleId,
+    }),
+    [accounts, setAccounts, rules, setRules, editingRuleId, setEditingRuleId]
   );
 
   return (

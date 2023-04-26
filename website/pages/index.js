@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { Inter, Poppins } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
+const poppins300 = Poppins({ subsets: ['latin'], weight: "300"  })
+const poppins600 = Poppins({ subsets: ['latin'], weight: "300"  })
 
 export default function Home() {
   return (
@@ -15,54 +17,54 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <div>
-            Text at top left!
-          </div>
-          <div>
-            Text in the middle, but, like, at the top as well
-          </div>
-          <div>
-            Text at top right!
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
+      <Image
             className={styles.logo}
-            src="/rulie.png"
-            alt="Next.js Logo"
-            width={200}
-            height={172}
+            src="/logo-banner.png"
+            alt="Rulie app screenshot"
+            width={300}
+            height={100}
             priority
           />
-        </div>
+          <div className={poppins300.className}>
+          Take control of mail notifications!
+                      </div>
+
+          <Image
+            className={styles.screenshot}
+            src="/screenshot.png"
+            alt="Rulie app screenshot"
+            width={343}
+            height={420}
+            priority
+          />
+          
 
         <div className={styles.grid}>
-          <div
+        <a
+            href="https://github.com/theronburger/Rulie/blob/main/app/README.md"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
+            <h2 className={poppins600.className}>
+              📝 Docs 
             </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
+            <p className={poppins300.className}>
+              Take a read though rulie&apos;s dev docs
             </p>
-          </div>
+          </a>
 
           <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://mailchi.mp/8be731bbee1d/rulie-alpha"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
+            <h2 className={poppins600.className}>
+              💌 Get updates 
             </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
+            <p className={poppins300.className}>
+              Sign up for the alpha
             </p>
           </a>
 
@@ -72,26 +74,11 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
+            <h2 className={poppins600.className}>
+              🐙 Git 
             </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
+            <p className={poppins300.className}>
+              Dive into the code on git
             </p>
           </a>
         </div>
